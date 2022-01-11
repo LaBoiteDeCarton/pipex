@@ -1,6 +1,6 @@
 NAME = pipex
 S_DIR = srcs
-H_DIR = include
+H_DIR = includes
 SRCS_FILES = main.c
 SRCS = $(addprefix ${S_DIR}/, ${SRCS_FILES})
 OBJS = ${SRCS:.c=.o}
