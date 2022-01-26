@@ -16,8 +16,6 @@ static void	freee(char **s)
 void	pipex_free(t_pipex p)
 {
 	freee(p.paths);
-	close(p.in_file);
-	close(p.out_file);
 	close(p.pipe[0]);
 	close(p.pipe[1]);
 }
