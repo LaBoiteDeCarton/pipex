@@ -1,4 +1,5 @@
 #include "pipex.h"
+#include <string.h>
 
 void	cmd(char *f, t_pipex *p, int fdin, int fdout)
 {
@@ -9,44 +10,18 @@ void	cmd(char *f, t_pipex *p, int fdin, int fdout)
 	tmp = str[0];
 	str[0] = find_path(tmp, p->paths);
 	free(tmp);
-	dup2(fdin, STDIN_FILENO);
+	dup2(fdin, STDIN_FILENO);  //dup2 peut echouer, faire un catch error ici
 	dup2(fdout, STDOUT_FILENO);
 	close(fdin);
 	close(fdout);
 	execve(str[0], &str[0], p->env);
+	ft_putstr_fd("command not found: ", 2);
+	ft_putendl_fd(f, 2);
+	exit(EXIT_FAILURE); //on termine le fork
+
+		 //est-ce que le execve fait free le str[0] ???
+	//il faudrait surement faire le ftstrjoin avant le fork? commme ca on peut free apres le execve dans le process parent.
 }
-
-// void	cmd1(char *f, t_pipex p, char **env)
-// {
-// 	char	*tmp;
-// 	char	**str;
-
-// 	str = ft_split(f, ' ');
-// 	tmp = str[0];
-// 	str[0] = find_path(tmp, p.paths);
-// 	free(tmp);
-// 	close(p.pipe[0]);
-// 	dup2(p.in_file, STDIN_FILENO);
-// 	close(p.in_file);
-// 	dup2(p.pipe[1], STDOUT_FILENO);
-// 	execve(str[0], &str[0], env);
-// }
-
-// void	cmd2(char *f, t_pipex p, char **env)
-// {
-// 	char	*tmp;
-// 	char	**str;
-
-// 	str = ft_split(f, ' ');
-// 	tmp = str[0];
-// 	str[0] = find_path(tmp, p.paths);
-// 	free(tmp);
-// 	close(p.pipe[1]);
-// 	dup2(p.out_file, STDOUT_FILENO);
-// 	close(p.out_file);
-// 	dup2(p.pipe[0], STDIN_FILENO);
-// 	execve(str[0], &str[0], env);
-// }
 
 void pipex(int ac, char **av, t_pipex *p)
 {
@@ -63,7 +38,6 @@ void pipex(int ac, char **av, t_pipex *p)
 	if (p->pid == 0)
 	{
 		close(p->pipe[0]);
-		printf("%s\n", *av);
 		cmd(*av, p, p->oldout, p->pipe[1]);
 	}
 	close(p->pipe[1]);
@@ -78,6 +52,8 @@ int	main(int ac, char **av, char **env)
 {
 	t_pipex	p;
 
+	if (ac < 5)
+		exit (0);
 	p.in_file = open(av[1], O_RDONLY);
 	p.out_file = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (p.in_file == -1)

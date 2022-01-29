@@ -25,7 +25,9 @@ char	*find_path(char *f, char **paths)
 	int		i;
 	char	*fpath;
 
-	f = ft_strjoin("/", f);
+	if (access(f, F_OK) == 0)
+		return (f);
+	f = ft_strjoin("/", f); //leaks detected!
 	i = 0;
 	while (paths[i])
 	{
@@ -52,6 +54,6 @@ char	**extract_paths(char **env)
 	while (env[i] && ft_strncmp(env[i], "PATH", 4))
 		i++;
 	if (!env[i])
-		perror("Impossible?");
+		return (NULL); //ne devrait arriver que is unset PATH?
 	return (ft_split(env[i] + 5, ':'));
 }
