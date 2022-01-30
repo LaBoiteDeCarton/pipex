@@ -13,17 +13,17 @@ typedef struct s_pipex t_pipex;
 
 struct s_pipex
 {
-	char **env;
-	int out_file;
-	int in_file;
-	int	pipe[2];
-	int oldout;
-	char **paths;
-	int pid;
+	char	**env;
+	int		fd_in;
+	int		oldout;
+	char	**paths;
+	int		heredoc;
 };
 
 char	**extract_paths(char **env);
 char	*find_path(char *f, char **paths);
+void	freee(char **s);
 void	pipex_free(t_pipex p);
+void	fork_heredoc(char *limiter);
 
 #endif
