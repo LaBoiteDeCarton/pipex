@@ -1,6 +1,6 @@
 #include "pipex.h"
 
-static void	freee(char **s)
+void	freee(char **s)
 {
 	int	i;
 
@@ -16,8 +16,6 @@ static void	freee(char **s)
 void	pipex_free(t_pipex p)
 {
 	freee(p.paths);
-	close(p.pipe[0]);
-	close(p.pipe[1]);
 }
 
 char	*find_path(char *f, char **paths)
@@ -27,7 +25,7 @@ char	*find_path(char *f, char **paths)
 
 	if (access(f, F_OK) == 0)
 		return (f);
-	f = ft_strjoin("/", f); //leaks detected!
+	f = ft_strjoin("/", f); //leaks detected maybe !
 	i = 0;
 	while (paths[i])
 	{

@@ -2,12 +2,13 @@ NAME = pipex
 S_DIR = srcs
 H_DIR = includes
 SRCS_FILES = main.c \
+				heredoc.c \
 				utils.c
 SRCS = $(addprefix ${S_DIR}/, ${SRCS_FILES})
 OBJS = ${SRCS:.c=.o}
 LFT = lib/libft
 LIBFLAGS = -Llib/libft -lft
-FLAGS = -Wall -Wextra -Werror -I ${H_DIR}
+FLAGS = -I ${H_DIR} #-Wall -Wextra -Werror
 
 
 .c.o:
@@ -15,7 +16,7 @@ FLAGS = -Wall -Wextra -Werror -I ${H_DIR}
 
 ${NAME}: ${OBJS}
 	make -C ${LFT}
-	gcc ${FLAGS} ${LIBFLAGS} ${OBJS} -o ${NAME} -g -fsanitize=address
+	gcc ${FLAGS} ${LIBFLAGS} ${OBJS} -o ${NAME}
 
 all: ${NAME}
 

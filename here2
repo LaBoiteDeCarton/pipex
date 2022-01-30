@@ -1,0 +1,11 @@
+total 128
+-rw-r--r--  1 daniel_mercadiel  staff    576 29 jan 22:58 Makefile
+-rw-r--r--  1 daniel_mercadiel  staff     89 29 jan 16:33 hello
+-rwxrwxrwx  1 daniel_mercadiel  staff      0 30 jan 12:12 here
+-rwxr-xr-x  1 daniel_mercadiel  staff      0 30 jan 12:14 here2
+drwxr-xr-x  4 daniel_mercadiel  staff    128 29 jan 17:15 includes
+drwxr-xr-x  4 daniel_mercadiel  staff    128 29 jan 15:46 lib
+-rw-r--r--  1 daniel_mercadiel  staff      1 29 jan 22:46 main2.c
+-rwxr-xr-x  1 daniel_mercadiel  staff      0 30 jan 01:42 new
+-rwxr-xr-x  1 daniel_mercadiel  staff  51496 30 jan 12:12 pipex
+drwxr-xr-x  8 daniel_mercadiel  staff    256 30 jan 12:12 srcs
