@@ -36,14 +36,12 @@ void	fork_pipex(int ac, char **av, t_pipex *p)
 	if (pid == 0)
 	{
 		close(fd[0]);
-		if (ac > 2)
-			dup2(fd[1], STDOUT_FILENO);
+		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		cmd(*av, p);
 	}
 	close(fd[1]);
-	if (ac > 2)
-		dup2(fd[0], STDIN_FILENO);
+	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	waitpid(pid, NULL, 0);
 }
@@ -93,8 +91,8 @@ int	main(int ac, char **av, char **env)
 {
 	t_pipex p;
 
-	if (ac-- < 4)
-		return (0);
+	if (--ac < 4)
+		exit(EXIT_FAILURE);
 	set_stdin(++av, &p);
 	av++;
 	ac--;
@@ -105,11 +103,9 @@ int	main(int ac, char **av, char **env)
 	set_stdout(av[ac - 1], &p);
 	p.paths = extract_paths(env);
  	p.env = env;
-	while (ac > 1)
-	{
-		ft_putstr_fd("while\n", 2);
+	while (ac > 2)
 		fork_pipex(ac--, av++, &p);
-	}
+	cmd(*av, &p);
 	pipex_free(p);
 	return (0);
 }
